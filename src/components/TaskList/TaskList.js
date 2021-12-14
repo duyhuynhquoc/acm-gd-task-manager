@@ -219,8 +219,7 @@ export default function TaskList(props) {
 			let awaiting = props.tasks[editAwaitingInput.value - 1];
 			if (!awaiting) {
 				awaiting = "";
-				availability =
-					editAwaitingInput.value === "" ? "Available" : "Unavailable";
+				availability = "Available";
 			} else {
 				availability = awaiting.status === "Done" ? "Available" : "Unavailable";
 			}
