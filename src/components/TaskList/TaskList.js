@@ -45,18 +45,17 @@ export default function TaskList(props) {
 
 		const editTaskNameInput = document.querySelector("#edit-task-name");
 		editTaskNameInput.value = taskName;
-		editTaskNameInput.addEventListener("dbclick", (e) => {
-			e.preventDefault();
-		});
 		editTaskNameInput.focus();
+
+		editTaskNameInput.addEventListener("dblclick", (e) => {
+			e.stopPropagation();
+		});
 
 		editTaskNameInput.addEventListener("focusout", () => {
 			let newTask = { ...task, taskName: editTaskNameInput.value };
-			console.log(newTask);
 
 			props.updateTask(task.id, newTask);
-			// taskCell.innerHTML = editTaskNameInput.value;
-			console.log("OUT");
+			taskCell.innerHTML = editTaskNameInput.value;
 		});
 	};
 
