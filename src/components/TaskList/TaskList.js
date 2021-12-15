@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Table } from "react-bootstrap";
 import { AiFillCloseCircle } from "react-icons/ai";
 
@@ -37,13 +37,6 @@ export default function TaskList(props) {
 	const editStatus = (event, task) => {
 		const taskCell = event.target;
 
-		const submitStatus = () => {
-			let newTask = { ...task, status: editStatusInput.value };
-
-			props.updateTask(task.id, newTask);
-			taskCell.innerHTML = editStatusInput.value;
-		};
-
 		// Get status value
 		let status = taskCell.innerHTML;
 
@@ -54,7 +47,26 @@ export default function TaskList(props) {
       <option value="Done">Done</option>
     </select>`;
 
-		// No need to submit when press enter
+		const submitStatus = () => {
+			// let newTask = { ...task, status: editStatusInput.value };
+			let newTasks = [...props.tasks];
+
+			newTasks.map((t) => {
+				if (t.id == task.id) {
+					t.status = editStatusInput.value;
+				}
+				if (t.awaiting == task.id) {
+					if (editStatusInput.value === "Done") {
+						t.availability = "Available";
+					} else {
+						t.availability = "Unavailable";
+					}
+				}
+			});
+
+			props.setTasks(newTasks);
+			taskCell.innerHTML = editStatusInput.value;
+		};
 
 		// Focus on input
 		const editStatusInput = document.querySelector("#edit-status");
@@ -68,10 +80,18 @@ export default function TaskList(props) {
 
 		// Submit when move out of input
 		editStatusInput.addEventListener("focusout", submitStatus);
+
+		// No need to submit when press enter
 	};
 
 	const editTaskName = (event, task) => {
 		const taskCell = event.target;
+
+		// Get taskName value
+		let taskName = taskCell.innerHTML;
+
+		// Change text into input
+		taskCell.innerHTML = `<form id="edit-task-name-form"><textarea id="edit-task-name" autocomplete="off"/></form>`;
 
 		const submitTaskName = (e) => {
 			e.preventDefault();
@@ -80,16 +100,6 @@ export default function TaskList(props) {
 			props.updateTask(task.id, newTask);
 			taskCell.innerHTML = editTaskNameInput.value;
 		};
-
-		// Get taskName value
-		let taskName = taskCell.innerHTML;
-
-		// Change text into input
-		taskCell.innerHTML = `<form id="edit-task-name-form"><textarea id="edit-task-name" autocomplete="off"/></form>`;
-
-		// Get form and add submit event
-		const editTaskNameForm = document.querySelector("#edit-task-name-form");
-		editTaskNameForm.addEventListener("submit", submitTaskName);
 
 		// Focus on input
 		const editTaskNameInput = document.querySelector("#edit-task-name");
@@ -103,10 +113,20 @@ export default function TaskList(props) {
 
 		// Submit when move out of input
 		editTaskNameInput.addEventListener("focusout", submitTaskName);
+
+		// Submit form when press enter
+		const editTaskNameForm = document.querySelector("#edit-task-name-form");
+		editTaskNameForm.addEventListener("submit", submitTaskName);
 	};
 
 	const editDeadline = (event, task) => {
 		const taskCell = event.target;
+
+		// Get deadline value
+		let deadline = taskCell.innerHTML;
+
+		// Change text into input
+		taskCell.innerHTML = `<form id="edit-deadline-form"><input type="date" id="edit-deadline-input" autocomplete="off"/></form>`;
 
 		const submitDeadline = (e) => {
 			e.preventDefault();
@@ -115,16 +135,6 @@ export default function TaskList(props) {
 			props.updateTask(task.id, newTask);
 			taskCell.innerHTML = editDeadlineInput.value;
 		};
-
-		// Get deadline value
-		let deadline = taskCell.innerHTML;
-
-		// Change text into input
-		taskCell.innerHTML = `<form id="edit-deadline-form"><input type="date" id="edit-deadline-input" autocomplete="off"/></form>`;
-
-		// Get form and add submit event
-		const editDeadlineForm = document.querySelector("#edit-deadline-form");
-		editDeadlineForm.addEventListener("submit", submitDeadline);
 
 		// Focus on input
 		const editDeadlineInput = document.querySelector("#edit-deadline-input");
@@ -138,10 +148,20 @@ export default function TaskList(props) {
 
 		// Submit when move out of input
 		editDeadlineInput.addEventListener("focusout", submitDeadline);
+
+		// Submit form when press enter
+		const editDeadlineForm = document.querySelector("#edit-deadline-form");
+		editDeadlineForm.addEventListener("submit", submitDeadline);
 	};
 
 	const editAssignee = (event, task) => {
 		const taskCell = event.target;
+
+		// Get assignee value
+		let assignee = taskCell.innerHTML;
+
+		// Change text into input
+		taskCell.innerHTML = `<form id="edit-assignee-form"><input type="text" id="edit-assignee-input" autocomplete="off"/></form>`;
 
 		const submitAssignee = (e) => {
 			e.preventDefault();
@@ -150,16 +170,6 @@ export default function TaskList(props) {
 			props.updateTask(task.id, newTask);
 			taskCell.innerHTML = editAssigneeInput.value;
 		};
-
-		// Get assignee value
-		let assignee = taskCell.innerHTML;
-
-		// Change text into input
-		taskCell.innerHTML = `<form id="edit-assignee-form"><input type="text" id="edit-assignee-input" autocomplete="off"/></form>`;
-
-		// Get form and add submit event
-		const editAssigneeForm = document.querySelector("#edit-assignee-form");
-		editAssigneeForm.addEventListener("submit", submitAssignee);
 
 		// Focus on input
 		const editAssigneeInput = document.querySelector("#edit-assignee-input");
@@ -173,10 +183,20 @@ export default function TaskList(props) {
 
 		// Submit when move out of input
 		editAssigneeInput.addEventListener("focusout", submitAssignee);
+
+		// Submit form when press enter
+		const editAssigneeForm = document.querySelector("#edit-assignee-form");
+		editAssigneeForm.addEventListener("submit", submitAssignee);
 	};
 
 	const editAssigner = (event, task) => {
 		const taskCell = event.target;
+
+		// Get assigner value
+		let assigner = taskCell.innerHTML;
+
+		// Change text into input
+		taskCell.innerHTML = `<form id="edit-assigner-form"><input type="text" id="edit-assigner-input" autocomplete="off"/></form>`;
 
 		const submitAssigner = (e) => {
 			e.preventDefault();
@@ -185,16 +205,6 @@ export default function TaskList(props) {
 			props.updateTask(task.id, newTask);
 			taskCell.innerHTML = editAssignerInput.value;
 		};
-
-		// Get assigner value
-		let assigner = taskCell.innerHTML;
-
-		// Change text into input
-		taskCell.innerHTML = `<form id="edit-assigner-form"><input type="text" id="edit-assigner-input" autocomplete="off"/></form>`;
-
-		// Get form and add submit event
-		const editAssignerForm = document.querySelector("#edit-assigner-form");
-		editAssignerForm.addEventListener("submit", submitAssigner);
 
 		// Focus on input
 		const editAssignerInput = document.querySelector("#edit-assigner-input");
@@ -208,10 +218,20 @@ export default function TaskList(props) {
 
 		// Submit when move out of input
 		editAssignerInput.addEventListener("focusout", submitAssigner);
+
+		// Submit form when press enter
+		const editAssignerForm = document.querySelector("#edit-assigner-form");
+		editAssignerForm.addEventListener("submit", submitAssigner);
 	};
 
 	const editAwaiting = (event, task) => {
 		const taskCell = event.target;
+
+		// Get awaiting value
+		let awaiting = taskCell.innerHTML;
+
+		// Change text into input
+		taskCell.innerHTML = `<form id="edit-awaiting-form"><input type="text" id="edit-awaiting-input" autocomplete="off" /></form>`;
 
 		const submitAwaiting = (e) => {
 			e.preventDefault();
@@ -230,16 +250,6 @@ export default function TaskList(props) {
 			taskCell.innerHTML = !awaiting ? "" : editAwaitingInput.value;
 		};
 
-		// Get awaiting value
-		let awaiting = taskCell.innerHTML;
-
-		// Change text into input
-		taskCell.innerHTML = `<form id="edit-awaiting-form"><input type="text" id="edit-awaiting-input" autocomplete="off" /></form>`;
-
-		// Get form and add submit event
-		const editAwaitingForm = document.querySelector("#edit-awaiting-form");
-		editAwaitingForm.addEventListener("submit", submitAwaiting);
-
 		// Focus on input
 		const editAwaitingInput = document.querySelector("#edit-awaiting-input");
 		editAwaitingInput.value = awaiting;
@@ -252,10 +262,20 @@ export default function TaskList(props) {
 
 		// Submit when move out of input
 		editAwaitingInput.addEventListener("focusout", submitAwaiting);
+
+		// Submit form when press enter
+		const editAwaitingForm = document.querySelector("#edit-awaiting-form");
+		editAwaitingForm.addEventListener("submit", submitAwaiting);
 	};
 
 	const editNote = (event, task) => {
 		const taskCell = event.target;
+
+		// Get note value
+		let note = taskCell.innerHTML;
+
+		// Change text into input
+		taskCell.innerHTML = `<form id="edit-note-form"><textarea id="edit-note" autocomplete="off"/></form>`;
 
 		const submitNote = (e) => {
 			e.preventDefault();
@@ -264,16 +284,6 @@ export default function TaskList(props) {
 			props.updateTask(task.id, newTask);
 			taskCell.innerHTML = editNoteInput.value;
 		};
-
-		// Get note value
-		let note = taskCell.innerHTML;
-
-		// Change text into input
-		taskCell.innerHTML = `<form id="edit-note-form"><textarea id="edit-note" autocomplete="off"/></form>`;
-
-		// Get form and add submit event
-		const editNoteForm = document.querySelector("#edit-note-form");
-		editNoteForm.addEventListener("submit", submitNote);
 
 		// Focus on input
 		const editNoteInput = document.querySelector("#edit-note");
@@ -287,6 +297,10 @@ export default function TaskList(props) {
 
 		// Submit when move out of input
 		editNoteInput.addEventListener("focusout", submitNote);
+
+		// Submit form when press enter
+		const editNoteForm = document.querySelector("#edit-note-form");
+		editNoteForm.addEventListener("submit", submitNote);
 	};
 
 	return (

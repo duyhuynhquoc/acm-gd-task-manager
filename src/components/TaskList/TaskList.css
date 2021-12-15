@@ -19,7 +19,3 @@
 .TaskList .delete-btn-icon {
 	font-size: 1.4rem;
 }
-
-#edit-task-name {
-	z-index: 1;
-}
