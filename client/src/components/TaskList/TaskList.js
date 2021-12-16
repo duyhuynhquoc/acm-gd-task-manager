@@ -47,21 +47,26 @@ export default function TaskList(props) {
       <option value="Done">Done</option>
     </select>`;
 
-		const submitStatus = () => {
-			// let newTask = { ...task, status: editStatusInput.value };
+		const submitStatus = (e) => {
+			e.preventDefault();
 			let newTasks = [...props.tasks];
 
 			newTasks.map((t) => {
 				if (t.taskId == task.taskId) {
 					t.status = editStatusInput.value;
-				}
-				if (t.awaiting == task.taskId) {
-					if (editStatusInput.value === "Done") {
-						t.availability = "Available";
-					} else {
-						t.availability = "Unavailable";
+					props.updateTask(t.taskId, "status", editStatusInput.value);
+				} else {
+					if (t.awaiting == task.taskId) {
+						if (editStatusInput.value === "Done") {
+							t.availability = "Available";
+							props.updateTask(t.taskId, "availability", "Available");
+						} else {
+							t.availability = "Unavailable";
+							props.updateTask(t.taskId, "availability", "Unavailable");
+						}
 					}
 				}
+				return t;
 			});
 
 			props.setTasks(newTasks);
@@ -95,9 +100,8 @@ export default function TaskList(props) {
 
 		const submitTaskName = (e) => {
 			e.preventDefault();
-			let newTask = { ...task, taskName: editTaskNameInput.value };
 
-			props.updateTask(task.taskId, newTask);
+			props.updateTask(task.taskId, "taskName", editTaskNameInput.value);
 
 			editTaskNameInput.removeEventListener("focusout", submitTaskName);
 
@@ -133,9 +137,8 @@ export default function TaskList(props) {
 
 		const submitDeadline = (e) => {
 			e.preventDefault();
-			let newTask = { ...task, deadline: editDeadlineInput.value };
 
-			props.updateTask(task.taskId, newTask);
+			props.updateTask(task.taskId, "deadline", editDeadlineInput.value);
 
 			editDeadlineInput.removeEventListener("focusout", submitDeadline);
 
@@ -173,7 +176,7 @@ export default function TaskList(props) {
 			e.preventDefault();
 			let newTask = { ...task, assignee: editAssigneeInput.value };
 
-			props.updateTask(task.taskId, newTask);
+			props.updateTask(task.taskId, "assignee", editAssigneeInput.value);
 
 			editAssigneeInput.removeEventListener("focusout", submitAssignee);
 
@@ -209,9 +212,8 @@ export default function TaskList(props) {
 
 		const submitAssigner = (e) => {
 			e.preventDefault();
-			let newTask = { ...task, assigner: editAssignerInput.value };
 
-			props.updateTask(task.taskId, newTask);
+			props.updateTask(task.taskId, "assigner", editAssignerInput.value);
 
 			editAssignerInput.removeEventListener("focusout", submitAssigner);
 
@@ -256,9 +258,8 @@ export default function TaskList(props) {
 				availability = awaiting.status === "Done" ? "Available" : "Unavailable";
 			}
 
-			let newTask = { ...task, availability, awaiting: awaiting.taskId };
-
-			props.updateTask(task.taskId, newTask);
+			props.updateTask(task.taskId, "awaiting", awaiting.taskId);
+			props.updateTask(task.taskId, "availability", availability);
 
 			editAwaitingInput.removeEventListener("focusout", submitAwaiting);
 
@@ -294,9 +295,8 @@ export default function TaskList(props) {
 
 		const submitNote = (e) => {
 			e.preventDefault();
-			let newTask = { ...task, note: editNoteInput.value };
 
-			props.updateTask(task.taskId, newTask);
+			props.updateTask(task.taskId, "note", editNoteInput.value);
 
 			editNoteInput.removeEventListener("focusout", submitNote);
 

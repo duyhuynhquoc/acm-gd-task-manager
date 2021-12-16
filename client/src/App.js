@@ -37,8 +37,8 @@ export default function App() {
 		setTasks([...tasks, newTask]);
 
 		// Create new task on database
-		axios.post(`${url}/api/`, newTask).then((err) => {
-			if (err) console.log(err);
+		axios.post(`${url}/api/`, newTask).then((res) => {
+			if (res) console.log(res);
 		});
 	};
 
@@ -57,25 +57,27 @@ export default function App() {
 		setTasks(newTasks);
 
 		// Delete task on database
-		axios.delete(`${url}/api/`, { data: { deleteId } }).then((err) => {
-			if (err) console.log(err);
+		axios.delete(`${url}/api/`, { data: { deleteId } }).then((res) => {
+			if (res) console.log(res);
 		});
 	};
 
-	const updateTask = (updateId, newTask) => {
+	const updateTask = (updateId, updateField, updateValue) => {
 		let newTasks = tasks.map((task) => {
 			if (task.taskId === updateId) {
-				task = newTask;
+				task[updateField] = updateValue;
 			}
 			return task;
 		});
 
 		setTasks(newTasks);
 
-		// Delete task on database
-		axios.put(`${url}/api/`, { updateId, newTask }).then((err) => {
-			if (err) console.log(err);
-		});
+		// Update task on database
+		axios
+			.put(`${url}/api/`, { updateId, updateField, updateValue })
+			.then((res) => {
+				if (res) console.log(res);
+			});
 	};
 
 	return (

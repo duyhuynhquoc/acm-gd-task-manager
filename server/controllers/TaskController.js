@@ -54,28 +54,14 @@ class TaskController {
 	update(req, res) {
 		res.setHeader("Content-Type", "application/json");
 
-		const { updateId, newTask } = req.body;
+		const { updateId, updateField, updateValue } = req.body;
 
-		const {
-			taskId,
-			status,
-			taskName,
-			availability,
-			deadline,
-			assignee,
-			assigner,
-			awaiting,
-			note,
-		} = newTask;
-
-		console.log("Update");
-
-		// let sqlQuery = `DELETE FROM Task WHERE taskID = '${deleteId}'`;
-		// db.query(sqlQuery, (err, result) => {
-		// 	if (err) throw err;
-		// 	res.send("Update OK");
-		// 	return;
-		// });
+		let sqlQuery = `UPDATE Task SET ${updateField} = '${updateValue}' WHERE taskId = '${updateId}'`;
+		db.query(sqlQuery, (err, result) => {
+			if (err) throw err;
+			res.send("Update OK");
+			return;
+		});
 	}
 }
 
