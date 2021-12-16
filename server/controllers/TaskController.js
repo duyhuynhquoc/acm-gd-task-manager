@@ -14,6 +14,10 @@ class TaskController {
 	}
 
 	create(req, res) {
+		res.setHeader("Content-Type", "application/json");
+
+		console.log(req.body);
+
 		const {
 			taskId,
 			status,
@@ -26,15 +30,28 @@ class TaskController {
 			note,
 		} = req.body;
 
-		console.log("Id" + taskId);
-
 		let sqlQuery = `INSERT INTO Task VALUES ('${taskId}', '${status}', '${taskName}', '${availability}', '${deadline}', '${assignee}', '${assigner}', '${awaiting}', '${note}');`;
 
 		db.query(sqlQuery, (err, result) => {
 			if (err) throw err;
+			res.send("Create OK");
+			return;
 		});
+	}
 
-		res.send("Create OK");
+	delete(req, res) {
+		res.setHeader("Content-Type", "application/json");
+
+		console.log(req.body);
+		const { deleteId } = req.body;
+
+		let sqlQuery = `DELETE FROM Task WHERE taskID = '${deleteId}'`;
+
+		db.query(sqlQuery, (err, result) => {
+			if (err) throw err;
+			res.send("Delete OK");
+			return;
+		});
 	}
 }
 

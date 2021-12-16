@@ -363,7 +363,7 @@ export default function TaskList(props) {
 										<AiFillCloseCircle
 											className="delete-btn-icon"
 											onClick={() => {
-												props.removeTask(task.taskId);
+												props.deleteTask(task.taskId);
 											}}
 										/>
 									</div>

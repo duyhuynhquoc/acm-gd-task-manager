@@ -1,8 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-import axios from "axios";
-
-import url from "../../url";
 
 import { Button, Form, FormControl, Row, Col } from "react-bootstrap";
 import {
@@ -74,13 +71,7 @@ export default function TaskInput(props) {
 
 		console.log(newTask);
 
-		props.addTask(newTask);
-
-		axios.post(`${url}/api/`, newTask).then((err) => {
-			if (err) console.log(err);
-			else console.log("OK");
-			// alert("INSERT OK");
-		});
+		props.createTask(newTask);
 
 		setTask({
 			taskName: "",
