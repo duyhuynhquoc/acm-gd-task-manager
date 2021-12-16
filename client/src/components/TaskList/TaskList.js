@@ -26,7 +26,7 @@ export default function TaskList(props) {
 
 		if (props.tasks.awaiting !== "")
 			props.tasks.map((t, i) => {
-				if (t.id === task.awaiting) {
+				if (t.taskId === task.awaiting) {
 					index = i;
 				}
 				return task;
@@ -52,10 +52,10 @@ export default function TaskList(props) {
 			let newTasks = [...props.tasks];
 
 			newTasks.map((t) => {
-				if (t.id == task.id) {
+				if (t.taskId == task.taskId) {
 					t.status = editStatusInput.value;
 				}
-				if (t.awaiting == task.id) {
+				if (t.awaiting == task.taskId) {
 					if (editStatusInput.value === "Done") {
 						t.availability = "Available";
 					} else {
@@ -97,7 +97,7 @@ export default function TaskList(props) {
 			e.preventDefault();
 			let newTask = { ...task, taskName: editTaskNameInput.value };
 
-			props.updateTask(task.id, newTask);
+			props.updateTask(task.taskId, newTask);
 			taskCell.innerHTML = editTaskNameInput.value;
 		};
 
@@ -132,7 +132,7 @@ export default function TaskList(props) {
 			e.preventDefault();
 			let newTask = { ...task, deadline: editDeadlineInput.value };
 
-			props.updateTask(task.id, newTask);
+			props.updateTask(task.taskId, newTask);
 			taskCell.innerHTML = editDeadlineInput.value;
 		};
 
@@ -167,7 +167,7 @@ export default function TaskList(props) {
 			e.preventDefault();
 			let newTask = { ...task, assignee: editAssigneeInput.value };
 
-			props.updateTask(task.id, newTask);
+			props.updateTask(task.taskId, newTask);
 			taskCell.innerHTML = editAssigneeInput.value;
 		};
 
@@ -202,7 +202,7 @@ export default function TaskList(props) {
 			e.preventDefault();
 			let newTask = { ...task, assigner: editAssignerInput.value };
 
-			props.updateTask(task.id, newTask);
+			props.updateTask(task.taskId, newTask);
 			taskCell.innerHTML = editAssignerInput.value;
 		};
 
@@ -244,9 +244,9 @@ export default function TaskList(props) {
 				availability = awaiting.status === "Done" ? "Available" : "Unavailable";
 			}
 
-			let newTask = { ...task, availability, awaiting: awaiting.id };
+			let newTask = { ...task, availability, awaiting: awaiting.taskId };
 
-			props.updateTask(task.id, newTask);
+			props.updateTask(task.taskId, newTask);
 			taskCell.innerHTML = !awaiting ? "" : editAwaitingInput.value;
 		};
 
@@ -281,7 +281,7 @@ export default function TaskList(props) {
 			e.preventDefault();
 			let newTask = { ...task, note: editNoteInput.value };
 
-			props.updateTask(task.id, newTask);
+			props.updateTask(task.taskId, newTask);
 			taskCell.innerHTML = editNoteInput.value;
 		};
 
@@ -363,7 +363,7 @@ export default function TaskList(props) {
 										<AiFillCloseCircle
 											className="delete-btn-icon"
 											onClick={() => {
-												props.removeTask(task.id);
+												props.removeTask(task.taskId);
 											}}
 										/>
 									</div>

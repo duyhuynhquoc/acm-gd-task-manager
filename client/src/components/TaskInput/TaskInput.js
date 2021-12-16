@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
+
+import url from "../../url";
 
 import { Button, Form, FormControl, Row, Col } from "react-bootstrap";
 import {
@@ -49,6 +52,7 @@ export default function TaskInput(props) {
 
 		let availability = "Available";
 		let awaiting = props.tasks[task.awaiting - 1];
+
 		if (!awaiting) {
 			awaiting = "";
 			availability = task.awaiting === "" ? "Available" : "Unavailable";
@@ -57,18 +61,27 @@ export default function TaskInput(props) {
 		}
 
 		let newTask = {
-			id: uuidv4(),
+			taskId: uuidv4(),
 			status: "To-do",
 			availability: availability,
 			taskName: task.taskName,
 			deadline: task.deadline,
 			assignee: task.assignee,
 			assigner: task.assigner,
-			awaiting: awaiting.id,
+			awaiting: awaiting ? awaiting.id : "",
 			note: task.note,
 		};
 
+		console.log(newTask);
+
 		props.addTask(newTask);
+
+		axios.post(`${url}/api/`, newTask).then((err) => {
+			if (err) console.log(err);
+			else console.log("OK");
+			// alert("INSERT OK");
+		});
+
 		setTask({
 			taskName: "",
 			deadline: "",
