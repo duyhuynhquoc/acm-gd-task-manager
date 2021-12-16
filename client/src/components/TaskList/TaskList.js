@@ -98,6 +98,9 @@ export default function TaskList(props) {
 			let newTask = { ...task, taskName: editTaskNameInput.value };
 
 			props.updateTask(task.taskId, newTask);
+
+			editTaskNameInput.removeEventListener("focusout", submitTaskName);
+
 			taskCell.innerHTML = editTaskNameInput.value;
 		};
 
@@ -133,6 +136,9 @@ export default function TaskList(props) {
 			let newTask = { ...task, deadline: editDeadlineInput.value };
 
 			props.updateTask(task.taskId, newTask);
+
+			editDeadlineInput.removeEventListener("focusout", submitDeadline);
+
 			taskCell.innerHTML = editDeadlineInput.value;
 		};
 
@@ -168,6 +174,9 @@ export default function TaskList(props) {
 			let newTask = { ...task, assignee: editAssigneeInput.value };
 
 			props.updateTask(task.taskId, newTask);
+
+			editAssigneeInput.removeEventListener("focusout", submitAssignee);
+
 			taskCell.innerHTML = editAssigneeInput.value;
 		};
 
@@ -203,6 +212,9 @@ export default function TaskList(props) {
 			let newTask = { ...task, assigner: editAssignerInput.value };
 
 			props.updateTask(task.taskId, newTask);
+
+			editAssignerInput.removeEventListener("focusout", submitAssigner);
+
 			taskCell.innerHTML = editAssignerInput.value;
 		};
 
@@ -247,6 +259,9 @@ export default function TaskList(props) {
 			let newTask = { ...task, availability, awaiting: awaiting.taskId };
 
 			props.updateTask(task.taskId, newTask);
+
+			editAwaitingInput.removeEventListener("focusout", submitAwaiting);
+
 			taskCell.innerHTML = !awaiting ? "" : editAwaitingInput.value;
 		};
 
@@ -282,6 +297,9 @@ export default function TaskList(props) {
 			let newTask = { ...task, note: editNoteInput.value };
 
 			props.updateTask(task.taskId, newTask);
+
+			editNoteInput.removeEventListener("focusout", submitNote);
+
 			taskCell.innerHTML = editNoteInput.value;
 		};
 

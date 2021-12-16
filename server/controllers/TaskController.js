@@ -16,8 +16,6 @@ class TaskController {
 	create(req, res) {
 		res.setHeader("Content-Type", "application/json");
 
-		console.log(req.body);
-
 		const {
 			taskId,
 			status,
@@ -42,7 +40,6 @@ class TaskController {
 	delete(req, res) {
 		res.setHeader("Content-Type", "application/json");
 
-		console.log(req.body);
 		const { deleteId } = req.body;
 
 		let sqlQuery = `DELETE FROM Task WHERE taskID = '${deleteId}'`;
@@ -52,6 +49,33 @@ class TaskController {
 			res.send("Delete OK");
 			return;
 		});
+	}
+
+	update(req, res) {
+		res.setHeader("Content-Type", "application/json");
+
+		const { updateId, newTask } = req.body;
+
+		const {
+			taskId,
+			status,
+			taskName,
+			availability,
+			deadline,
+			assignee,
+			assigner,
+			awaiting,
+			note,
+		} = newTask;
+
+		console.log("Update");
+
+		// let sqlQuery = `DELETE FROM Task WHERE taskID = '${deleteId}'`;
+		// db.query(sqlQuery, (err, result) => {
+		// 	if (err) throw err;
+		// 	res.send("Update OK");
+		// 	return;
+		// });
 	}
 }
 

@@ -39,8 +39,6 @@ export default function App() {
 		// Create new task on database
 		axios.post(`${url}/api/`, newTask).then((err) => {
 			if (err) console.log(err);
-			else console.log("OK");
-			// alert("INSERT OK");
 		});
 	};
 
@@ -60,20 +58,24 @@ export default function App() {
 
 		// Delete task on database
 		axios.delete(`${url}/api/`, { data: { deleteId } }).then((err) => {
-			// setTasks(res.data);
-			console.log(err.data);
+			if (err) console.log(err);
 		});
 	};
 
-	const updateTask = (taskId, newTask) => {
+	const updateTask = (updateId, newTask) => {
 		let newTasks = tasks.map((task) => {
-			if (task.taskId === taskId) {
+			if (task.taskId === updateId) {
 				task = newTask;
 			}
 			return task;
 		});
 
 		setTasks(newTasks);
+
+		// Delete task on database
+		axios.put(`${url}/api/`, { updateId, newTask }).then((err) => {
+			if (err) console.log(err);
+		});
 	};
 
 	return (
