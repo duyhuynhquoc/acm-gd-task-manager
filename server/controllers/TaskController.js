@@ -1,15 +1,25 @@
-const db = require("../utils/db");
+const mysql = require("mysql");
+
+const dbConfig = {
+	connectionLimit: 10,
+	host: process.env.DB_HOST,
+	user: process.env.DB_USER,
+	password: process.env.DB_PASSWORD,
+	database: process.env.DB_DATABASE,
+};
 
 class TaskController {
-	index(req, res) {}
-
 	get(req, res) {
 		let sqlQuery = "SELECT * FROM Task;";
 
-		db.query(sqlQuery, (err, result) => {
-			if (err) throw err;
+		const db = mysql.createPool(dbConfig);
 
-			res.send(result);
+		db.query(sqlQuery, (error, results, fields) => {
+			if (error) {
+				console.log(error);
+				results = [];
+			}
+			res.send(results);
 		});
 	}
 
@@ -30,10 +40,11 @@ class TaskController {
 
 		let sqlQuery = `INSERT INTO Task VALUES ('${taskId}', '${status}', '${taskName}', '${availability}', '${deadline}', '${assignee}', '${assigner}', '${awaiting}', '${note}');`;
 
-		db.query(sqlQuery, (err, result) => {
-			if (err) throw err;
-			res.send("Create OK");
-			return;
+		const db = mysql.createConnection(dbConfig);
+
+		db.query(sqlQuery, (error, results, fields) => {
+			if (error) console.log(error);
+			res.send(results);
 		});
 	}
 
@@ -42,12 +53,13 @@ class TaskController {
 
 		const { deleteId } = req.body;
 
+		const db = mysql.createConnection(dbConfig);
+
 		let sqlQuery = `DELETE FROM Task WHERE taskID = '${deleteId}'`;
 
-		db.query(sqlQuery, (err, result) => {
-			if (err) throw err;
-			res.send("Delete OK");
-			return;
+		db.query(sqlQuery, (error, results, fields) => {
+			if (error) console.log(error);
+			res.send(results);
 		});
 	}
 
@@ -56,11 +68,13 @@ class TaskController {
 
 		const { updateId, updateField, updateValue } = req.body;
 
+		const db = mysql.createConnection(dbConfig);
+
 		let sqlQuery = `UPDATE Task SET ${updateField} = '${updateValue}' WHERE taskId = '${updateId}'`;
-		db.query(sqlQuery, (err, result) => {
-			if (err) throw err;
-			res.send("Update OK");
-			return;
+
+		db.query(sqlQuery, (error, results, fields) => {
+			if (error) console.log(error);
+			res.send(results);
 		});
 	}
 }
